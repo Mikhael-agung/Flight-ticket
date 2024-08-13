@@ -32,10 +32,33 @@ enum StatusTicket {
 }
 
 model User {
-  id: Int
-  email: String
-  password: String
-  role: RoleUser
-  createdAt: DateTime @default(now())
-  updatedAt: DateTime @updatedAt
+  id        String @id @default(cuid())
+  name      String
+  email     String @unique
+  password  String
+  passport  String?
+  role      RoleUser
 }
+
+model Airplane{
+  id        String @id @default(cuid())
+  code      String @default("ABC-123")
+  name      String
+  image     String
+  flight    flight[]
+}
+
+model flight {
+  id        String @id @default(cuid())
+  planeId  String  
+  plane    Airplane @relation(fields: [planeId], references: [id])
+  deapartureDate DateTime
+  deapartureCity String
+  deaparturecityCode String
+  arrivalDate DateTime
+  desatinationCity String
+  desatinationCityCode String
+  price     Int
+}
+
+
