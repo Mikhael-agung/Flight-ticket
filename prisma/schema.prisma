@@ -38,6 +38,16 @@ model User {
   password  String
   passport  String?
   role      RoleUser
+  tickets   Tickets[]
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model Airplane{
@@ -45,20 +55,40 @@ model Airplane{
   code      String @default("ABC-123")
   name      String
   image     String
-  flight    flight[]
+  flight    Flight[]
 }
 
-model flight {
+model Flight {
+  id                    String @id @default(cuid())
+  planeId               String  
+  plane                 Airplane @relation(fields: [planeId], references: [id])
+  deapartureDate        DateTime
+  deapartureCity        String
+  deaparturecityCode    String
+  arrivalDate           DateTime
+  desatinationCity      String
+  desatinationCityCode  String
+  price                 Int
+  flightSeat            FlightSeat[]
+  tickets               Tickets[]
+}
+model FlightSeat {
   id        String @id @default(cuid())
-  planeId  String  
-  plane    Airplane @relation(fields: [planeId], references: [id])
-  deapartureDate DateTime
-  deapartureCity String
-  deaparturecityCode String
-  arrivalDate DateTime
-  desatinationCity String
-  desatinationCityCode String
-  price     Int
+  flightId  String
+  flight    Flight @relation(fields: [flightId], references: [id])
+  seatNumber String
+  isBooked   Boolean? @default(false)
+  type      TypeSeat
+  tickets   Tickets?
 }
 
-
+model Tickets {
+  id       String @id @default(cuid())
+  code     String @unique
+  flightId String
+  flight   Flight @relation(fields: [flightId], references: [id])
+  customerId String
+  customer User @relation(fields: [customerId], references: [id])
+  seatId String @unique
+  seat FlightSeat @relation(fields: [seatId], references: [id])
+}
