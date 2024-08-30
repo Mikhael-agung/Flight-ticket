@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import React, { FC } from 'react';
-import { handleSignIn } from './actions';
+import { ActionResult, handleSignIn } from './actions';
+import { useFormState } from 'react-dom';
 interface SignInPageProps {
 
 }
@@ -9,7 +10,16 @@ export const metadata: Metadata = {
     title: 'Dashboard | Login'
 }
 
+const initialFormState : ActionResult = {
+    errorTitle: null,
+    errorDesc: []
+}
+
 const SignInPage: FC<SignInPageProps> = ({ }) => {
+
+    const [state, formAction] =  useFormState(handleSignIn, initialFormState);
+    console.log(state);
+
     return (
         <div className=' w-full h-screen'>
             <div className="flex min-h-full flex-i flex-col justify-center px-6 py-12 lg:px-8">
