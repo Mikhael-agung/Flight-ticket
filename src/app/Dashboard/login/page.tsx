@@ -1,4 +1,6 @@
+import { Metadata } from 'next';
 import React, { FC } from 'react';
+import { handleSignIn } from './actions';
 interface SignInPageProps {
 
 }
@@ -16,11 +18,20 @@ const SignInPage: FC<SignInPageProps> = ({ }) => {
                         Sign in to your account
                     </h2>
                 </div>
+                <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+                <form action={handleSignIn} className='space-y-4'>
+                    <input  className='w-full p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none 'type="email" placeholder='email' name='email' required/>
+                    <input className='md:w-full md:max-w-sm p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none' type="password" placeholder='password' name='password' required/>
+
+                    <button className='w-full' type='submit'>
+                        Submit
+                    </button>
+                </form>
+                </div>
             </div>
-            JANCOKK
         </div>
     )
-}
+} 
 
 
 export default SignInPage;
