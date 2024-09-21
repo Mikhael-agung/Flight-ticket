@@ -31,8 +31,8 @@ const FormSignIn: FC<FormSignInProps> = ({ }) => {
             </div>
             <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
             <form action={formAction} className='space-y-4'>
-                <Input  className='w-full p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none 'type="email" placeholder='email' name='email' required/>
-                <Input className='md:w-full md:max-w-sm p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none' type="password" placeholder='password' name='password' required/>
+                <Input  className='w-full p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none 'type="email" placeholder='email' name='email'/>
+                <Input className='md:w-full md:max-w-sm p-2 border-2 border-gray-300 rounded-md shadow-md focus:border-blue-500 focus:shadow-lg focus:outline-none' type="password" placeholder='password' name='password' />
 
                 <Button className='w-full' type='submit'>
                     Submit

@@ -2,6 +2,10 @@
 
 import { redirect } from"next/navigation";
 import { formSchema } from "./validation";
+import { lucia } from "@/lib/auth";
+import { cookies } from "next/dist/client/components/headers";
+import bcrypt from 'bcrypt';
+
 
 export interface ActionResult {
     errorTitle: string | null;
@@ -24,6 +28,37 @@ export async function handleSignIn( prevstate: any, formData: FormData ): Promis
         }
     }
     
-    return redirect('/dashboard/login');
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            email: values.data.email
+        }
+    });
+
+    if (!existingUser) {
+        return {
+            errorTitle: 'Error',
+            errorDesc: ['User not found']
+        }
+    }
+
+    const validPassword = bcrypt.compare(values.data.password, existingUser.password);
+
+    if(!validPassword) {
+        return {
+            errorTitle: 'Error',
+            errorDesc: ['Invalid password']
+        }
+    }
+
+    const session = await lucia.createSession(existingUser.id, {});
+    const sessionCookie = await lucia.createSessionCookie(session.id);
+
+    cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+    )
+
+    return redirect('/Dashboard');
 }
 
